@@ -1,46 +1,68 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="referrer" content="no-referrer">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="referrer" content="no-referrer" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="shortcut icon" id="tab-favicon" href="/assets/media/favicon/thesaurus.png" />
+
   <title id="page-title">ST4R Browser</title>
 
-  <link
-    rel="icon"
-    id="tab-favicon"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230b2417'/%3E%3Cpath d='M50 12 L61 39 L89 50 L61 61 L50 89 L39 61 L11 50 L39 39 Z' fill='%237be39a'/%3E%3C/svg%3E"
-  >
-
-  <link rel="stylesheet" href="/assets/css/global.css">
+  <link rel="stylesheet" href="/assets/css/global.css" />
+  <link rel="stylesheet" href="/assets/css/home.css" />
+  <link rel="stylesheet" href="/assets/css/nav.css" />
 
   <script src="/assets/js/storage.js"></script>
   <script src="/assets/js/main.js"></script>
 
-  <style>
-    html, body {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      overflow: hidden;
-    }
-
-    .shell-frame {
-      display: block;
-      width: 100%;
-      height: 100%;
-      min-height: 100vh;
-      border: 0;
-    }
-  </style>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
-<body class="shell" data-shell="true">
-  <iframe
-    class="shell-frame"
-    src="/home"
-    title="ST4R Browser"
-    allow="fullscreen; autoplay; clipboard-read; clipboard-write">
-  </iframe>
+<body class="center">
+
+  <div class="nav-bar"></div>
+
+  <div class="main">
+
+    <h1 class="title"></h1>
+
+    <p id="splash"></p>
+
+    <div class="search-container">
+
+      <form id="search-form" method="POST">
+
+        <input
+          id="input"
+          class="truncate"
+          placeholder="Search or enter a URL"
+          type="text"
+        />
+
+      </form>
+
+      <button id="about-blank-button" type="button">
+        Open in about:blank
+      </button>
+
+    </div>
+
+  </div>
+
+  <script src="/assets/js/vendor.js"></script>
+  <script src="/assets/js/search.js"></script>
+  <script src="/assets/js/home.js"></script>
+
+  <script src="./assets/ultraviolet/uv.bundle.js"></script>
+  <script src="./assets/ultraviolet/uv.config.js"></script>
+
+  <script src="/assets/scramjet/scramjet.all.js"></script>
+  <script src="/assets/scramjet/scramjet.config.js"></script>
+
+  <script src="/assets/js/analytics.js"></script>
+
 </body>
 </html>
