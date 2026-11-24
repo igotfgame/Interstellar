@@ -1,41 +1,673 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="referrer" content="no-referrer" />
-  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="shortcut icon" id="tab-favicon" href="/assets/media/favicon/thesaurus.png" />
-  <title id="page-title">Synonyms and Antonyms of Words | Thesaurus.com</title>
-  <link rel="stylesheet" href="/assets/css/global.css" />
-  <link rel="stylesheet" href="/assets/css/home.css" />
-  <link rel="stylesheet" href="/assets/css/nav.css" />
-  <script src="/assets/js/storage.js"></script>
-  <script src="/assets/js/main.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>ST4R Browser</title>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230b2417'/%3E%3Cpath d='M50 10 L62 38 L90 50 L62 62 L50 90 L38 62 L10 50 L38 38 Z' fill='%237be39a'/%3E%3C/svg%3E">
+
+<style>
+:root {
+  --accent: #67e795;
+  --background: #07110b;
+  --surface: #0d1911;
+  --surface2: #15251a;
+  --border: rgba(150,220,170,.15);
+  --text: #edf8ef;
+  --muted: #91a697;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  background: var(--background);
+  color: var(--text);
+  font-family: Inter, system-ui, Arial, sans-serif;
+}
+
+button, input {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+  cursor: pointer;
+}
+
+.browser {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOP BAR */
+
+.topbar {
+  height: 55px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 17px;
+  background: #09150d;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 19px;
+  font-weight: 850;
+  letter-spacing: 2px;
+}
+
+.logo {
+  width: 33px;
+  height: 33px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  background: #153321;
+  font-size: 23px;
+}
+
+.status {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+/* TABS */
+
+.tabbar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 43px;
+  flex-shrink: 0;
+  padding: 5px 9px 0;
+  background: #0b170f;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+.tab {
+  height: 33px;
+  min-width: 110px;
+  max-width: 205px;
+  padding: 0 9px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: 9px 9px 0 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.tab.active {
+  color: var(--text);
+  background: #17251b;
+  border-color: var(--border);
+}
+
+.tab-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.tab-close {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 2px 5px;
+  border-radius: 5px;
+}
+
+.tab-close:hover {
+  color: white;
+  background: #344638;
+}
+
+.new-tab {
+  width: 33px;
+  height: 33px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--accent);
+  font-size: 22px;
+}
+
+/* ADDRESS BAR */
+
+.toolbar {
+  height: 56px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #0d1911;
+  border-bottom: 1px solid var(--border);
+}
+
+.tool-button {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  font-size: 17px;
+}
+
+.tool-button:hover {
+  background: #1b3021;
+  border-color: var(--border);
+}
+
+.address-wrap {
+  flex: 1;
+  min-width: 50px;
+  display: flex;
+  align-items: center;
+  height: 37px;
+  padding: 0 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  gap: 9px;
+}
+
+.address-wrap:focus-within {
+  border-color: var(--accent);
+}
+
+.lock {
+  color: var(--accent);
+  font-size: 13px;
+}
+
+.address {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  color: white;
+  border: 0;
+  outline: 0;
+  font-size: 13px;
+}
+
+.go-button {
+  height: 35px;
+  padding: 0 15px;
+  background: var(--accent);
+  border: 0;
+  border-radius: 22px;
+  color: #07130a;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* PAGE CONTENT */
+
+.viewport {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: #050907;
+}
+
+.view {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: none;
+  background: #fff;
+}
+
+.home {
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 22px;
+  overflow-y: auto;
+  background:
+    radial-gradient(ellipse at 50% 38%, #183b27 0, transparent 48%),
+    #07110b;
+}
+
+.home-inner {
+  width: 100%;
+  max-width: 730px;
+  text-align: center;
+}
+
+.home-logo {
+  width: 76px;
+  height: 76px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 17px;
+  border-radius: 23px;
+  color: var(--accent);
+  background: #183b25;
+  font-size: 45px;
+  box-shadow: 0 10px 35px #0005;
+}
+
+.home h1 {
+  margin: 0;
+  font-size: clamp(35px, 6vw, 53px);
+  letter-spacing: 5px;
+}
+
+.home-subtitle {
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.searchbox {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  margin: 28px 0;
+  border-radius: 17px;
+  background: #14251a;
+  border: 1px solid var(--border);
+}
+
+.searchbox input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px;
+  color: white;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-size: 14px;
+}
+
+.searchbox button {
+  padding: 0 19px;
+  border: 0;
+  border-radius: 11px;
+  background: var(--accent);
+  color: #07130a;
+  font-weight: 800;
+}
+
+.shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.shortcut {
+  width: 100px;
+  padding: 15px 8px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: #122017;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.shortcut:hover {
+  border-color: var(--accent);
+  background: #1b3021;
+}
+
+.shortcut-icon {
+  margin-bottom: 8px;
+  font-size: 25px;
+}
+
+/* LOADING AND HELP */
+
+.loading {
+  position: absolute;
+  z-index: 5;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 15px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: #14251a;
+  color: var(--accent);
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.loading[hidden] {
+  display: none;
+}
+
+.frame-help {
+  position: absolute;
+  z-index: 4;
+  right: 12px;
+  bottom: 12px;
+  max-width: 310px;
+  padding: 10px 13px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #102017ed;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.frame-help button {
+  display: block;
+  margin-top: 7px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 7px;
+  background: var(--accent);
+  color: #07130a;
+  font-weight: 800;
+}
+
+/* FOOTER */
+
+.footer {
+  height: 27px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 13px;
+  border-top: 1px solid var(--border);
+  background: #09150d;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+@media(max-width:650px) {
+  .status {
+    display: none;
+  }
+
+  .brand {
+    font-size: 16px;
+  }
+
+  .toolbar {
+    gap: 3px;
+    padding: 7px;
+  }
+
+  .tool-button {
+    width: 29px;
+  }
+
+  .go-button {
+    padding: 0 10px;
+  }
+
+  .shortcut {
+    width: 82px;
+  }
+}
+</style>
 </head>
 
-<body class="center">
-  <div class="nav-bar"></div>
-  <div class="main">
-    <h1 class="title"></h1>
-    <p id="splash"></p>
-    <div class="search-container">
-      <form id="search-form" method="POST">
-        <input id="input" class="truncate" placeholder="Search or enter a URL" type="text" />
-      </form>
-      <button id="about-blank-button" type="button">Open in about:blank</button>
-    </div>
-  </div>
-  <script src="/assets/js/vendor.js"></script>
-  <script src="assets/js/search.js"></script>
-  <script src="/assets/js/home.js"></script>
-  <script src="./assets/ultraviolet/uv.bundle.js"></script>
-  <script src="./assets/ultraviolet/uv.config.js"></script>
-  <script src="/assets/scramjet/scramjet.all.js"></script>
-  <script src="/assets/scramjet/scramjet.config.js"></script>
-<script src="/assets/js/analytics.js"></script>
-</body>
+<body>
 
-</html>
+<div class="browser">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">✦</span>
+      ST4R
+    </div>
+
+    <div class="status" id="status">
+      ST4R Browser ready
+    </div>
+  </header>
+
+
+  <div class="tabbar" id="tabbar"></div>
+
+
+  <div class="toolbar">
+
+    <button class="tool-button" title="Back" onclick="goBack()">←</button>
+
+    <button class="tool-button" title="Forward" onclick="goForward()">→</button>
+
+    <button class="tool-button" title="Refresh" onclick="refreshPage()">↻</button>
+
+    <button class="tool-button" title="Home" onclick="goHome()">⌂</button>
+
+    <div class="address-wrap">
+      <span class="lock">◈</span>
+
+      <input
+        id="address"
+        class="address"
+        placeholder="Search Brave or enter a website address..."
+        autocomplete="off"
+        spellcheck="false"
+      >
+    </div>
+
+    <button class="go-button" onclick="navigate()">Go</button>
+
+    <button class="tool-button" title="Open in separate tab" onclick="openExternal()">↗</button>
+
+    <button class="tool-button" title="Fullscreen" onclick="toggleFullscreen()">⛶</button>
+
+  </div>
+
+
+  <main class="viewport" id="viewport">
+
+    <div class="loading" id="loading" hidden>
+      Loading page...
+    </div>
+
+    <div class="frame-help" id="frameHelp" hidden>
+      This website may not allow embedded viewing.
+      <button onclick="openExternal()">Open this page separately ↗</button>
+    </div>
+
+  </main>
+
+
+  <footer class="footer">
+    <span>ST4R Browser</span>
+    <span>Search powered by Brave</span>
+  </footer>
+
+</div>
+
+
+<script>
+'use strict';
+
+/* =========================================
+   SETTINGS
+========================================= */
+
+const BRAVE_SEARCH =
+  'https://search.brave.com/search?q=';
+
+const viewport =
+  document.getElementById('viewport');
+
+const tabbar =
+  document.getElementById('tabbar');
+
+const address =
+  document.getElementById('address');
+
+const loading =
+  document.getElementById('loading');
+
+const status =
+  document.getElementById('status');
+
+const frameHelp =
+  document.getElementById('frameHelp');
+
+let tabs = [];
+let activeTabId = null;
+let nextTabId = 1;
+let loadTimer = null;
+
+
+/* =========================================
+   ADDRESS HANDLING
+========================================= */
+
+function resolveAddress(value) {
+  value = String(value || '').trim();
+
+  if (!value) return '';
+
+  if (value === 'about:blank') {
+    return value;
+  }
+
+  if (/^https?:\/\//i.test(value)) {
+    return value;
+  }
+
+  const possibleDomain =
+    /^[a-z0-9.-]+\.[a-z]{2,}([/:?#].*)?$/i.test(value);
+
+  if (possibleDomain && !/\s/.test(value)) {
+    return 'https://' + value;
+  }
+
+  return BRAVE_SEARCH + encodeURIComponent(value);
+}
+
+function hostFromUrl(url) {
+  try {
+    return new URL(url).hostname;
+  } catch (error) {
+    return 'New Tab';
+  }
+}
+
+
+/* =========================================
+   NEW TAB PAGE
+========================================= */
+
+function createHomePage(tab) {
+  const home = document.createElement('section');
+
+  home.className = 'home';
+
+  const inner = document.createElement('div');
+  inner.className = 'home-inner';
+
+  const logo = document.createElement('div');
+  logo.className = 'home-logo';
+  logo.textContent = '✦';
+
+  const title = document.createElement('h1');
+  title.textContent = 'ST4R';
+
+  const subtitle = document.createElement('p');
+  subtitle.className = 'home-subtitle';
+  subtitle.textContent = 'Your space on the web.';
+
+  const searchbox = document.createElement('div');
+  searchbox.className = 'searchbox';
+
+  const input = document.createElement('input');
+  input.placeholder = 'Search with Brave...';
+  input.autocomplete = 'off';
+
+  const searchButton = document.createElement('button');
+  searchButton.textContent = 'Search';
+
+  searchButton.addEventListener('click', () => {
+    searchFromHome(tab.id, input.value);
+  });
+
+  input.addEventListener('keydown', event => {
+    if (event.key === 'Enter') {
+      searchFromHome(tab.id, input.value);
+    }
+  });
+
+  searchbox.append(input, searchButton);
+
+  const shortcuts = document.createElement('div');
+  shortcuts.className = 'shortcuts';
+
+  const items = [
+    {
+      icon: '🔎',
+      name: 'Brave Search',
+      url: 'https://search.brave.com/'
+    },
+    {
+      icon: '📚',
+      name: 'Wikipedia',
+      url: 'https://www.wikipedia.org/'
+    },
+    {
+      icon: '🌐',
+      name: 'Example',
+      url: 'https://example.com/'
+    }
+  ];
+
+  items.forEach(item => {
+    const button = document.createElement('div');
+    button.className = 'shortcut';
+
+    const icon = document.createElement('div');
+    icon.className = 'shortcut-icon';
+    icon.textContent = item.icon;
+
+    const label = document.createElement('div');
+    label.textContent = item.name;
+
+    button.append(icon, label);
+
+    button.addEventListener('click', () => {
+      navigateTab(tab.id, item.url);
+    });
+
+    shortcuts.appendChild(button);
+  });
+
+  inner.append(
+    logo,
+    title,
+    subtitle,
+    searchbox
