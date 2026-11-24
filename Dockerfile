@@ -2,14 +2,18 @@ FROM node:bookworm-slim
 
 WORKDIR /app
 
-# Copy the entire project, including vendor dependencies
+ENV NODE_ENV=production
+ENV PORT=8080
+ENV HOST=0.0.0.0
+
+# Copy all project files, including vendor dependencies
 COPY . .
 
-# Install dependencies after copying the project
-RUN npm install
+# Install dependencies after copying vendor files
+RUN npm install --omit=dev
 
-ENV NODE_ENV=production
-
+# EthioDeploy application port
 EXPOSE 8080
 
-CMD ["npm", "start"]
+# Start Interstellar
+CMD ["npm", "start"]"]
